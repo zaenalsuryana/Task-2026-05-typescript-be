@@ -7,6 +7,11 @@ import {
   deleteUser,
 } from "../controllers/user.controller";
 
+import {
+  validateId,
+  validateUser,
+} from "../middlewares/validation.middleware";
+
 const router = Router();
 
 /**
@@ -55,7 +60,7 @@ router.get("/users", getUsers);
  *       500:
  *         description: Terjadi kesalahan pada server
  */
-router.get("/users/:id", getUserById);
+router.get("/users/:id", validateId, getUserById);
 
 /**
  * @swagger
@@ -90,7 +95,7 @@ router.get("/users/:id", getUserById);
  *       500:
  *         description: Terjadi kesalahan pada server
  */
-router.post("/users", createUser);
+router.post("/users", validateUser, createUser);
 
 /**
  * @swagger
@@ -134,7 +139,12 @@ router.post("/users", createUser);
  *       500:
  *         description: Terjadi kesalahan pada server
  */
-router.put("/users/:id", updateUser);
+router.put(
+  "/users/:id",
+  validateId,
+  validateUser,
+  updateUser
+);
 
 /**
  * @swagger
@@ -160,6 +170,6 @@ router.put("/users/:id", updateUser);
  *       500:
  *         description: Terjadi kesalahan pada server
  */
-router.delete("/users/:id", deleteUser);
+router.delete("/users/:id", validateId, deleteUser);
 
 export default router;
